@@ -1,11 +1,13 @@
 package main
 
 import (
-	"github.com/go-chi/chi"
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/wlcmtunknwndth/REST_API/internal/config"
+	deleteUrl "github.com/wlcmtunknwndth/REST_API/internal/http-server/handlers/delete"
+	"github.com/wlcmtunknwndth/REST_API/internal/http-server/handlers/redirect"
 	"github.com/wlcmtunknwndth/REST_API/internal/http-server/handlers/url/save"
-	"github.com/wlcmtunknwndth/REST_API/internal/http-server/middleware/logger"
+	mylogger "github.com/wlcmtunknwndth/REST_API/internal/http-server/middleware/logger"
 	"github.com/wlcmtunknwndth/REST_API/internal/lib/logger/sl"
 	"github.com/wlcmtunknwndth/REST_API/internal/storage/sqlite"
 	"log/slog"
@@ -47,7 +49,7 @@ func main() {
 	//
 	//if err = storage.DeleteURL("google"); err != nil {
 	//	log.Error("can't delete alias: ", err)
-	//} / f
+	//} /
 
 	router := chi.NewRouter()
 
@@ -55,13 +57,20 @@ func main() {
 	router.Use(middleware.RequestID)
 	//router.Use(middleware.RealIP)
 	//router.Use(middleware.Logger) //logger option 2
-	router.Use(logger.New(log))
+	router.Use(mylogger.New(log))
 	router.Use(middleware.Recoverer)
 	router.Use(middleware.URLFormat)
 
-	router.Post("/url", save.New(log, storage))
+	router.Route("/url", func(r chi.Router) {
+		r.Use(middleware.BasicAuth("REST_API_go", map[string]string{
+			cfg.HTTPServer.Username: cfg.HTTPServer.Password,
+			//add by copying line above
+		}))
+		r.Post("/", save.New(log, storage))
+		r.Delete("/{alias}", deleteUrl.New(log, storage))
+	})
 
-	// TODO: run server
+	router.Get("/{alias}", redirect.New(log, storage))
 
 	log.Info("starting server", slog.String("address", cfg.Address))
 

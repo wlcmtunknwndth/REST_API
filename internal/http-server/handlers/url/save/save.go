@@ -14,7 +14,7 @@ import (
 )
 
 type Request struct {
-	URL   string `json:"url" validate:"required, url"`
+	URL   string `json:"url" validate:"required,url"`
 	Alias string `json:"alias,omitempty"`
 }
 
@@ -27,6 +27,8 @@ type Response struct {
 
 // TODO: move to cfg
 const aliasLength = 4
+
+//go:generate go run github.com/vektra/mockery/v2@v2.41.0 --name=URLSaver
 
 type URLSaver interface {
 	SaveURL(urlToSave string, alias string) (int64, error)
