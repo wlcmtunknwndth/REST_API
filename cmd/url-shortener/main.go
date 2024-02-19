@@ -90,7 +90,7 @@ func main() {
 
 }
 
-// might use prettylogger
+// might use pretty logger
 func setupLogger(env string) *slog.Logger {
 	var log *slog.Logger
 	switch env {
