@@ -1,0 +1,15 @@
+[Unit]
+Description=REST API GO
+After=network.target
+
+[Service]
+User=lwwwl
+WorkingDirectory=/root/apps/rest_api_go
+ExecStart=/root/apps/rest_api_go/url-shortener
+Restart=always
+RestartSec=4
+StandardOutput=inherit
+EnvironmentFile=/root/apps/rest_api_go/config.env
+
+[Install]
+WantedBy=multi-user.target
