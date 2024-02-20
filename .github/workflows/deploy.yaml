@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HOST: lwwwl@192.168.1.145
-      DEPLOY_PATH: /root/apps/REST_API
-      CONFIG_PATH: /root/apps/REST_API/config/prod.yaml
-      ENV_FILE_PATH: /root/apps/REST_API/config.env
+      DEPLOY_PATH: ~/apps/REST_API
+      CONFIG_PATH: ~/apps/REST_API/config/prod.yaml
+      ENV_FILE_PATH: ~/apps/REST_API/config.env
 
     steps:
       - name: Checkout repository
@@ -55,7 +55,7 @@ jobs:
           ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST}} "\
           touch ${{ env.ENV_FILE_PATH }} && \
           chmod 600 ${{ env.ENV_FILE_PATH }} && \
-          echo 'CONFIG_PATH=${{ env.CONFIG_PATH}}' > ${{ env.ENV_FILE_PATH}} && \
+          echo 'CONFIG_PATH=${{ env.CONFIG_PATH }}' > ${{ env.ENV_FILE_PATH}} && \
           echo 'HTTP_SERVER_PASSWORD=${{ secrets.AUTH_PASS }}' >> ${{ env.ENV_FILE_PATH }}"
       - name: Copy systemd service file
         run: |
