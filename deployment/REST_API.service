@@ -3,7 +3,7 @@ Description=REST API GO
 After=network.target
 
 [Service]
-User=lwwwl
+User=root
 WorkingDirectory=/root/apps/REST_API
 ExecStart=/root/apps/REST_API/url-shortener
 Restart=always

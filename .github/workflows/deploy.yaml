@@ -9,10 +9,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      HOST: lwwwl@192.168.1.145
-      DEPLOY_PATH: ~/apps/REST_API
-      CONFIG_PATH: ~/apps/REST_API/config/prod.yaml
-      ENV_FILE_PATH: ~/apps/REST_API/config.env
+      HOST: root@192.168.1.145
+      DEPLOY_PATH: /root/apps/REST_API
+      CONFIG_PATH: /root/apps/REST_API/config/prod.yaml
+      ENV_FILE_PATH: /root/apps/REST_API/config.env
 
     steps:
       - name: Checkout repository
