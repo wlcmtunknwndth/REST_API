@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HOST: lwwwl@192.168.1.145
-      DEPLOY_PATH: /root/apps/rest_api_go
-      CONFIG_PATH: /root/apps/rest_api_go/config/prod.yaml
-      ENV_FILE_PATH: /root/apps/rest_api_go/config.env
+      DEPLOY_PATH: /root/apps/REST_API
+      CONFIG_PATH: /root/apps/REST_API/config/prod.yaml
+      ENV_FILE_PATH: /root/apps/REST_API/config.env
 
     steps:
       - name: Checkout repository
@@ -45,7 +45,7 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
       - name: Remove old systemd service file
         run: |
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "rm -f /etc/systemd/system/rest_api_go.service"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "rm -f /etc/systemd/system/REST_API.service"
       - name: List workspace contents
         run: |
           echo "Listening deployment folder contents:"
@@ -59,8 +59,8 @@ jobs:
           echo 'HTTP_SERVER_PASSWORD=${{ secrets.AUTH_PASS }}' >> ${{ env.ENV_FILE_PATH }}"
       - name: Copy systemd service file
         run: |
-          scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/rest_api_go.service ${{ env.HOST }}:/tmp/rest_api_go.service
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mv /tmp/rest_api_go.service /etc/systemd/system/rest_api_go.service"
+          scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/REST_API.service ${{ env.HOST }}:/tmp/REST_API.service
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mv /tmp/REST_API.service /etc/systemd/system/REST_API.service"
       - name: Start application
         run: |
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "systemctl daemon-reload && systemctl restart rest_api_go.service"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "systemctl daemon-reload && systemctl restart REST_API.service"
