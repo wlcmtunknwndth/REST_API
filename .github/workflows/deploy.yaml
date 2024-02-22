@@ -9,7 +9,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     env:
-      HOST: root@192.168.1.145
+      HOST: root@lwwwl.wlcmtunknwndth.keenetic.pro
       DEPLOY_PATH: /root/apps/REST_API
       CONFIG_PATH: /root/apps/REST_API/config/prod.yaml
       ENV_FILE_PATH: /root/apps/REST_API/config.env
