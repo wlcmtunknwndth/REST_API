@@ -4,12 +4,12 @@ After=network.target
 
 [Service]
 User=root
-WorkingDirectory=/root/apps/REST_API
-ExecStart=/root/apps/REST_API/url-shortener
+WorkingDirectory=/root/apps/rest_api
+ExecStart=/root/apps/rest_api/url-shortener
 Restart=always
 RestartSec=4
 StandardOutput=inherit
-EnvironmentFile=/root/apps/REST_API/config.env
+EnvironmentFile=/root/apps/rest_api/config.env
 
 [Install]
 WantedBy=multi-user.target
