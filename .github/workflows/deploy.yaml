@@ -10,9 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       HOST: root@lwwwl.wlcmtunknwndth.keenetic.pro
-      DEPLOY_DIRECTORY: /root/apps/REST_API
-      CONFIG_PATH: /root/apps/REST_API/config/prod.yaml
-      ENV_FILE_PATH: /root/apps/REST_API/config.env
+      DEPLOY_DIRECTORY: /root/apps/rest_api
+      CONFIG_PATH: /root/apps/rest_api/config/prod.yaml
+      ENV_FILE_PATH: /root/apps/rest_api/config.env
 
     steps:
       - name: Checkout repository
@@ -35,7 +35,7 @@ jobs:
       - name: Build app
         run: |
           go mod download
-          go build -o REST_API ./cmd/url-shortener
+          go build -o rest_api ./cmd/url-shortener
       - name: Deploy to VM
         run: |
           sudo apt-get install -y ssh rsync
@@ -47,7 +47,7 @@ jobs:
           DEPLOY_SSH_KEY: ${{ secrets.DEPLOY_SSH_KEY }}
       - name: Remove old systemd service file
         run: |
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "rm -f /etc/systemd/system/REST_API.service"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "rm -f /etc/systemd/system/rest_api.service"
       - name: List workspace contents
         run: |
           echo "Listening deployment folder contents:"
@@ -61,8 +61,8 @@ jobs:
           echo 'HTTP_SERVER_PASSWORD=${{ secrets.AUTH_PASS }}' >> ${{ env.ENV_FILE_PATH }}"
       - name: Copy systemd service file
         run: |
-          scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/REST_API.service ${{ env.HOST }}:/tmp/REST_API.service
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mv /tmp/REST_API.service /etc/systemd/system/REST_API.service"
+          scp -i deploy_key.pem -o StrictHostKeyChecking=no ${{ github.workspace }}/deployment/rest_api.service ${{ env.HOST }}:/tmp/rest_api.service
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "mv /tmp/rest_api.service /etc/systemd/system/rest_api.service"
       - name: Start application
         run: |
-          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "systemctl daemon-reload && systemctl restart REST_API.service"
+          ssh -i deploy_key.pem -o StrictHostKeyChecking=no ${{ env.HOST }} "systemctl daemon-reload && systemctl restart rest_api.service"
