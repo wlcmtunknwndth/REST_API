@@ -1,4 +1,5 @@
-.idea
-storage
-env.go
-local.env
+/.idea
+/storage
+/env.go
+/local.env
+rest_api.go
