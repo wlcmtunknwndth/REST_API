@@ -1,7 +1,7 @@
 package logger
 
 import (
-	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5/middleware"
 	"log/slog"
 	"net/http"
 	"time"

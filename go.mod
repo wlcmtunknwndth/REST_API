@@ -14,7 +14,7 @@ require (
 require (
 	github.com/brianvoe/gofakeit/v6 v6.28.0
 	github.com/gavv/httpexpect/v2 v2.16.0
-	github.com/go-chi/chi/v5 v5.0.11
+	github.com/go-chi/chi/v5 v5.0.12
 )
 
 require (

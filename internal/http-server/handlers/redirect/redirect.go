@@ -2,8 +2,8 @@ package redirect
 
 import (
 	"errors"
-	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/render"
 	resp "github.com/wlcmtunknwndth/REST_API/internal/lib/api/response"
 	"github.com/wlcmtunknwndth/REST_API/internal/lib/logger/sl"
